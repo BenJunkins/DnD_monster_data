@@ -1,4 +1,20 @@
-### Libraries ###
+""" 
+---------
+Libraries
+---------
+
+BeasutifulSoup: Used to scrape homebrew data from dandwiki.com coverd 
+under the GNU v1.3 License located in the DATA LICENSE folder.
+
+requests: Used to connect to dandwiki.com.
+
+re: Used to search for specific text in the soup objects such as "Armor Class,"
+"Hit Points," and "Strength."
+
+pandas: Used to create a dataframe to store the monster data.
+
+math: Used for various math functions such as floor().
+"""
 
 from bs4 import BeautifulSoup
 import requests
@@ -6,7 +22,11 @@ import re
 import pandas as pd
 import math
 
-### Functions ###
+"""
+---------
+Functions
+---------
+"""
 
 def monster_name(monster_soup):                                           # The input is the Soup object made from the individual monsters webpage
     
@@ -93,7 +113,11 @@ def monster_abilities(monster_soup):
 
     return strength_score, dexterity_score, constitution_score, intelligence_score, wisdom_score, charisma_score, strength_modifier, dexterity_modifier, constitution_modifier, intelligence_modifier, wisdom_modifier, charisma_modifier
 
-### Initailizaing Monster Dataframe ###
+"""
+-------------------------------
+Initailizaing Monster Dataframe
+-------------------------------
+"""
 
 monster_df = pd.DataFrame(
     columns = [
@@ -158,7 +182,11 @@ monster_df = pd.DataFrame(
     ]
 )
 
-### Get Webpage for the List of Monsters ###
+"""
+------------------------------------
+Get Webpage for the List of Monsters
+------------------------------------
+"""
 
 response = requests.get("https://www.dandwiki.com/wiki/5e_Monsters")
 
@@ -171,14 +199,22 @@ if response.status_code == 200:                   # Checks that the connection t
 else:
     print(response)                               # If not a good connection, prints response code
 
-### Get Hyperlinks for all Monsters ###
+"""
+-------------------------------
+Get Hyperlinks for all Monsters
+-------------------------------
+"""
 
 monster_href = []                                                                       # List to store each monster's hyperlink
 
 for a in monster_list_soup.find_all("a", href=re.compile("\\(5e_Creature\\)")):         # Finds all <a> tags that have a hyperlink to a monster. The '\' allows the parenthesis to be recognized
     monster_href.append("https://dandwiki.com" + a["href"])                             # Adds the web address prefix to the href attribute and appends it to the monster_href list
 
-### Get Monster Attributes ###
+"""
+----------------------
+Get Monster Attributes
+----------------------
+"""
 
 response = requests.get(monster_href[0])
 
