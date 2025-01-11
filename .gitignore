@@ -1,2 +1,3 @@
 # Ignores all checkpoints for Jupyter Notebooks
 .ipynb_checkpoints/
+.venv
